@@ -1,0 +1,46 @@
+version: "2"
+
+services:
+  web:
+    image: webwurst/caddy:0.8.3
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./certs:/etc/caddy/certs
+    volumes_from:
+      - osem-static
+    networks:
+      - api-front
+    depends_on:
+      - api
+      - osem-static
+  osem-static:
+    image: opensensemap
+    environment:
+      - API_URL=http:\/\/api\.localhost\.localdomain
+  api:
+    image: sensebox/opensensemap-api
+    env_file: .env
+    networks:
+      - api-front
+      - api-back
+    depends_on:
+      - db
+  db:
+    image: sensebox/opensensemap-api-mongo
+    volumes:
+      - ./mongo-data:/data/db
+    env_file: .env
+    command: --auth
+    networks:
+      - api-back
+
+
+networks:
+  api-front:
+    driver: bridge
+  api-back:
+    driver: bridge

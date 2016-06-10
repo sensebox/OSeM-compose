@@ -1,0 +1,56 @@
+localhost.localdomain:80 {
+  tls off
+  root /usr/src/app/dist
+
+  rewrite {
+    if {file} not favicon.ico
+    if {file} not files/*
+    if {file} not userimages/*
+    to {path} {path}/ /index.html
+  }
+
+  header /scripts {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  header /styles {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  header /fonts {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  gzip {
+    not /images /userimages /fonts
+  }
+  log stout
+}
+
+api.localhost.localdomain:80 {
+  tls off
+  gzip
+
+  proxy / api:8000/ {
+    proxy_header Host {host}
+    proxy_header X-Real-IP {remote}
+    proxy_header X-Forwarded-Proto {scheme}
+  }
+  log stout
+}
+
+# legacy api on port 8000
+localhost.localdomain:8000 {
+  tls off
+  gzip
+
+  proxy / api:8000/ {
+    proxy_header Host {host}
+    proxy_header X-Real-IP {remote}
+    proxy_header X-Forwarded-Proto {scheme}
+  }
+  log stout
+}
