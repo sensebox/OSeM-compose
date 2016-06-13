@@ -2,42 +2,60 @@ version: "2"
 
 services:
   web:
-    image: webwurst/caddy:0.8.3
+    image: sensebox/caddy
     ports:
       - "80:80"
       - "443:443"
       - "8000:8000"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./certs:/etc/caddy/certs
+      - caddy-data:/etc/caddy/certs
     volumes_from:
       - osem-static
+      - api
     networks:
       - api-front
     depends_on:
       - api
       - osem-static
+    command: caddy -conf /etc/caddy/Caddyfile -ca https://acme-staging.api.letsencrypt.org/directory
   osem-static:
     image: sensebox/opensensemap
     environment:
-      - API_URL=http:\/\/api\.localhost\.localdomain
+      - API_URL=https:\/\/api\.staging\.opensensemap\.io
   api:
     image: sensebox/opensensemap-api
-    env_file: .env
+    environment:
+      - OSEM_dbuser=bq6mq5BheSilg0GU
+      - OSEM_dbuserpass=UTnbVdCKqlZ7MH6X
+      - OSEM_dbhost=mongo
+      - OSEM_targetFolder=/usr/src/app/dist/usersketches/
+      - OSEM_imageFolder=/usr/src/app/dist/userimages/
     networks:
       - api-front
       - api-back
+    volumes:
+      - api-userdata:/usr/src/app/dist/usersketches
+      - api-userdata:/usr/src/app/dist/userimages
     depends_on:
-      - db
-  db:
+      - mongo
+  mongo:
     image: sensebox/opensensemap-api-mongo
     volumes:
-      - ./mongo-data:/data/db
-    env_file: .env
+      - mongo-data:/data/db
+    environment:
+      - OSEM_dbuser=bq6mq5BheSilg0GU
+      - OSEM_dbuserpass=UTnbVdCKqlZ7MH6X
     command: --auth
     networks:
       - api-back
 
+volumes:
+  api-userdata:
+    driver: local
+  mongo-data:
+    driver: local
+  caddy-data:
+    driver: local
 
 networks:
   api-front:
