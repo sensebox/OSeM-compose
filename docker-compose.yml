@@ -18,7 +18,7 @@ services:
       - api
       - osem-static
   osem-static:
-    image: opensensemap
+    image: sensebox/opensensemap
     environment:
       - API_URL=http:\/\/api\.localhost\.localdomain
   api:
