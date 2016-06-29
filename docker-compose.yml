@@ -1,0 +1,82 @@
+version: "2"
+
+services:
+  web:
+    image: sensebox/osem-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+    environment:
+      - WEB_DOMAIN=localhost.localdomain
+      - API_DOMAIN=api.localhost.localdomain
+      - ISSUER_ADDRESS=off
+      - USE_STAGING_CA=true
+    volumes:
+      - caddy-data:/etc/caddy/.caddy
+    volumes_from:
+      - osem-static
+      - api
+    networks:
+      - api-front
+    depends_on:
+      - api
+      - osem-static
+    restart: always
+  osem-static:
+    image: sensebox/opensensemap
+    environment:
+      - API_URL=http://api.localhost.localdomain
+      #- OCPU_URL=http://localhost
+  api:
+    image: sensebox/opensensemap-api
+    environment:
+      - OSEM_dbuser=mongodbOSeMUser
+      - OSEM_dbuserpass=securePa$$
+      - OSEM_dbhost=mongo
+      - OSEM_targetFolder=/usr/src/app/dist/files/
+      - OSEM_imageFolder=/usr/src/app/dist/userimages/
+    networks:
+      - api-front
+      - api-back
+    volumes:
+      - api-usersketches:/usr/src/app/dist/files
+      - api-userimages:/usr/src/app/dist/userimages
+    depends_on:
+      - mongo
+    restart: always
+  mongo:
+    image: sensebox/opensensemap-api-mongo
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - OSEM_dbuser=mongodbOSeMUser
+      - OSEM_dbuserpass=securePa$$
+    command: --auth --storageEngine wiredTiger
+    networks:
+      - api-back
+    restart: always
+
+volumes:
+  api-usersketches:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /dockervolumes/api-usersketches
+  api-userimages:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /dockervolumes/api-userimages
+  mongo-data:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /dockervolumes/mongo-data
+  caddy-data:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /dockervolumes/caddy-data
+
+networks:
+  api-front:
+    driver: bridge
+  api-back:
+    driver: bridge
