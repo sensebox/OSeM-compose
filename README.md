@@ -23,6 +23,7 @@ Afterwards you can start everything with `docker-compose up -d`
 | `USE_STAGING_CA` | web | if `true` a test-certificate will be issued. Otherwise omit this key | y |
 | `API_URL` | osem-static | The url of your api WITH protocol, e.g. `https://api.yourdomain.tld` |  |
 | `OCPU_URL` | osem-static | the url of your OpenCPU deployment. ([https://github.com/sensebox/inteRsense](https://github.com/sensebox/inteRsense)). Otherwise omit this key | y |
+| `MAPTILES_URL` | osem-static | tiles url for your map | y |
 | `OSEM_dbuser` | api, mongo | the database user to connect to your mongodb, also configure this in the `mongo` service |  |
 | `OSEM_dbpass` | api, mongo | the password for the mongodb user, also configure this in the `mongo` service |  |
 | `OSEM_dbhost` | api | mongodb database host. Must correspond with the `mongo:` service in the `docker-compose.yml` |  |

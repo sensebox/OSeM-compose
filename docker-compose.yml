@@ -27,7 +27,7 @@ services:
     image: sensebox/opensensemap
     environment:
       - API_URL=http://api.localhost.localdomain
-      - MAPTILES_URL=https://\{s\}.tiles.mapbox.com/v4/mapbox.streets/\{z\}/\{x\}/\{y\}.png?access_token=pk.eyJ1Ijoic2Vuc2Vib3giLCJhIjoiY2lxajNoYnNsMDBlOWkybmh2ZnhxZmMwZyJ9.inXfNk5nJf92mgUeBIEmtA
+      #- MAPTILES_URL=http://\{s\}.tile.openstreetmap.org/\{z\}/\{x\}/\{y\}.png
       #- OCPU_URL=http://localhost
   api:
     image: sensebox/opensensemap-api
