@@ -30,6 +30,7 @@ Afterwards you can start everything with `docker-compose up -d`
 | `OSEM_targetFolder` | api | if you are using the `osem-caddy` image for your frontend, leave as specified |  |
 | `OSEM_imageFolder` | api | if you are using the `osem-caddy` image for your frontend, leave as specified |  |
 | `OSEM_slack_url` | api | Slack Webhook url. Leave empty if you don't want slack notifications of the api | y |
+| `OSEM_measurements_post_domain` | api | the domain of your openSenseMap instance. Will be used in the arduino sketches |  |
 | `OSEM_email_host` | api | smtp email host. if omitted the api won't send mails | y |
 | `OSEM_email_port` | api | smtp email host port | y |
 | `OSEM_email_secure` | api | `true` or `false` for tls | y |

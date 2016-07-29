@@ -32,6 +32,7 @@ services:
   api:
     image: sensebox/opensensemap-api
     environment:
+      - OSEM_measurements_post_domain=localhost.localdomain
       - OSEM_dbuser=mongodbOSeMUser
       - OSEM_dbuserpass=securePa$$
       - OSEM_dbhost=mongo
