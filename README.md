@@ -13,7 +13,7 @@ This repository the `docker-compose.yml` how [opensensemap.org](https://opensens
 
 After you installed the software listed above, created the subdomains and placed the `docker-compose.yml` on your server, you need to configure some values in said `docker-compose.yml`. Place these below their respective services `environment` key.
 
-Afterwards you can start everything with `docker-compose up -d`
+Afterwards you can start everything with `docker-compose up -d`. This repository also contains some bash scripts to deploy updated images.
 
 | key | service | comment | optional |
 |---------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------|
