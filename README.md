@@ -32,13 +32,18 @@ Afterwards you can start everything with `docker-compose up -d`. This repository
 | `OSEM_slack_url` | api | Slack Webhook url. Leave empty if you don't want slack notifications of the api | y |
 | `OSEM_measurements_post_domain` | api | the plain domain of your openSenseMap instance. Will be used in the arduino sketches. no `www` and no protocol. should correspond to `WEB_DOMAIN` |  |
 | `OSEM_honeybadger_apikey` | api | api key of honeybadger.io error reporting |  |
-| `OSEM_email_host` | api | smtp email host. if omitted the api won't send mails | y |
-| `OSEM_email_port` | api | smtp email host port | y |
-| `OSEM_email_secure` | api | `true` or `false` for tls | y |
-| `OSEM_email_user` | api | smtp email user | y |
-| `OSEM_email_pass` | api | smtp email password | y |
-| `OSEM_email_fromName` | api | fromName of the emails | y |
-| `OSEM_email_fromEmail` | api | from email address  | y |
-| `OSEM_email_replyTo` | api | email replyTo address | y |
-| `OSEM_email_subject` | api | subject of the email | y |
+| `OSEM_mailer_url` | api | internal url of the mailer. `https://mailer:3924/` for example | |
+| `OSEM_mailer_cert` | api | certificate to communicate with the mailer. see [https://github.com/sensebox/sensebox-mailer](sensebox-mailer) for more information. | |
+| `OSEM_mailer_key` | api | key for the certificate | |
+| `OSEM_mailer_ca` | api | signing ca for your certificate | |
+| `OSEM_mailer_origin` | api | origin of your openSenseMap installation. With protocol. | |
 | `OSEM_dbconnectionstring` | api | alternative method to specify the mongodb connection string. If you specify this, `dbuser`,`dbhost` and `dbpass` will be ignored | y |
+| `SENSEBOX_MAILER_CA_CERT` | mailer | the certificate of your CA. Server and client should be signed by this CA see [https://github.com/sensebox/sensebox-mailer](sensebox-mailer) for more information. | y |
+| `SENSEBOX_MAILER_SERVER_CERT` | mailer | the server certificate | y |
+| `SENSEBOX_MAILER_SERVER_KEY` |  mailer | the key of the server certificate | y |
+| `SENSEBOX_MAILER_SMTP_SERVER` | mailer | the smtp server address | y |
+| `SENSEBOX_MAILER_SMTP_PORT` | mailer | the smtp server port | y |
+| `SENSEBOX_MAILER_SMTP_USER` | mailer | the smtp server user | y |
+| `SENSEBOX_MAILER_SMTP_PASSWORD` | mailer | the smtp server password | y |
+| `SENSEBOX_MAILER_FROM_DOMAIN` | mailer | the domain you are sending from | y |
+| `SENSEBOX_MAILER_HONEYBADGER_APIKEY` | mailer | api key for honeybadger error reporting |  |
