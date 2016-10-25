@@ -38,6 +38,7 @@ Afterwards you can start everything with `docker-compose up -d`. This repository
 | `OSEM_mailer_ca` | api | signing ca for your certificate | |
 | `OSEM_mailer_origin` | api | origin of your openSenseMap installation. With protocol. | |
 | `OSEM_dbconnectionstring` | api | alternative method to specify the mongodb connection string. If you specify this, `dbuser`,`dbhost` and `dbpass` will be ignored | y |
+| `ENV` | api | should be set to `prod` to enable https checking in the api. | y |
 | `SENSEBOX_MAILER_CA_CERT` | mailer | the certificate of your CA. Server and client should be signed by this CA see [https://github.com/sensebox/sensebox-mailer](sensebox-mailer) for more information. | y |
 | `SENSEBOX_MAILER_SERVER_CERT` | mailer | the server certificate | y |
 | `SENSEBOX_MAILER_SERVER_KEY` |  mailer | the key of the server certificate | y |
