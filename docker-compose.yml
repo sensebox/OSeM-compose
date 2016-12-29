@@ -28,7 +28,6 @@ services:
     environment:
       - API_URL=http://api.localhost.localdomain
       #- MAPTILES_URL=http://\{s\}.tile.openstreetmap.org/\{z\}/\{x\}/\{y\}.png
-      #- OCPU_URL=http://localhost
   api:
     image: sensebox/opensensemap-api
     environment:
