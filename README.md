@@ -4,7 +4,7 @@ This repository the `docker-compose.yml` how [opensensemap.org](https://opensens
 
 # What you need
 
-- [Docker](https://docs.docker.com/engine/understanding-docker/) and [Docker Compose](https://docs.docker.com/compose/overview/)
+- [Docker](https://docs.docker.com/engine/understanding-docker/) and [Docker Compose](https://docs.docker.com/compose/overview/) (at least Version 1.9.0)
 - The [Local Persist Volume Plugin for Docker](https://github.com/CWSpear/local-persist)
 - A server
 - a web domain with dns control (you need the subdomains `www` and `api`)
