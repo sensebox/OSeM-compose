@@ -14,10 +14,10 @@ services:
       - "443:443"
       - "8000:8000"
     environment:
-      - WEB_DOMAIN=localhost.localdomain
-      - API_DOMAIN=api.localhost.localdomain
-      - ISSUER_ADDRESS=off
-      - USE_STAGING_CA=true
+      WEB_DOMAIN: localhost.localdomain
+      API_DOMAIN: api.localhost.localdomain
+      ISSUER_ADDRESS: "off"
+      USE_STAGING_CA: "true"
     volumes:
       - caddy-data:/etc/caddy/.caddy
       - frontend-assets:/usr/src/app/dist
@@ -34,8 +34,8 @@ services:
   osem-static:
     image: sensebox/opensensemap
     environment:
-      - API_URL=http://api.localhost.localdomain
-      #- MAPTILES_URL=http://\{s\}.tile.openstreetmap.org/\{z\}/\{x\}/\{y\}.png
+      API_URL: http://api.localhost.localdomain
+      #MAPTILES_URL: http://\{s\}.tile.openstreetmap.org/\{z\}/\{x\}/\{y\}.png
     volumes:
       - frontend-assets:/usr/src/app/dist
     labels:
@@ -43,13 +43,13 @@ services:
   api:
     image: sensebox/opensensemap-api
     environment:
-      - ENV=prod
-      - OSEM_measurements_post_domain=localhost.localdomain
-      - OSEM_dbuser=mongodbOSeMUser
-      - OSEM_dbuserpass=securePa$$
-      - OSEM_dbhost=mongo
-      - OSEM_targetFolder=/usr/src/app/dist/files/
-      - OSEM_imageFolder=/usr/src/app/dist/userimages/
+      ENV: prod
+      OSEM_measurements_post_domain: localhost.localdomain
+      OSEM_dbuser: mongodbOSeMUser
+      OSEM_dbuserpass: securePa$$
+      OSEM_dbhost: mongo
+      OSEM_targetFolder: /usr/src/app/dist/files/
+      OSEM_imageFolder: /usr/src/app/dist/userimages/
     networks:
       - api-front
       - api-back
@@ -67,8 +67,8 @@ services:
     volumes:
       - mongo-data:/data/db
     environment:
-      - OSEM_dbuser=mongodbOSeMUser
-      - OSEM_dbuserpass=securePa$$
+      OSEM_dbuser: mongodbOSeMUser
+      OSEM_dbuserpass: securePa$$
     command: --auth --storageEngine wiredTiger
     networks:
       - api-back
