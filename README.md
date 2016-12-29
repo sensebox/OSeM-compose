@@ -1,6 +1,6 @@
 # openSenseMap in Docker Compose
 
-This repository the `docker-compose.yml` how [opensensemap.org](https://opensensemap.org) is run.
+This repository the `docker-compose.yml` how [opensensemap.org](https://opensensemap.org) is run. It includes a watchtower image which will periodically checks for and deploys updated images.
 
 # What you need
 
