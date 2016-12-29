@@ -1,6 +1,12 @@
 version: "2.1"
 
 services:
+  watchtower:
+    image: ubergesundheit/watchtower
+    command: --ps-filter label=org.opensensemap.watchtower.enable=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
   web:
     image: sensebox/osem-caddy
     ports:
@@ -14,8 +20,8 @@ services:
       - USE_STAGING_CA=true
     volumes:
       - caddy-data:/etc/caddy/.caddy
+      - frontend-assets:/usr/src/app/dist
     volumes_from:
-      - osem-static
       - api
     networks:
       - api-front
@@ -23,11 +29,17 @@ services:
       - api
       - osem-static
     restart: always
+    labels:
+      org.opensensemap.watchtower.enable: "true"
   osem-static:
     image: sensebox/opensensemap
     environment:
       - API_URL=http://api.localhost.localdomain
       #- MAPTILES_URL=http://\{s\}.tile.openstreetmap.org/\{z\}/\{x\}/\{y\}.png
+    volumes:
+      - frontend-assets:/usr/src/app/dist
+    labels:
+      org.opensensemap.watchtower.enable: "true"
   api:
     image: sensebox/opensensemap-api
     environment:
@@ -41,12 +53,15 @@ services:
     networks:
       - api-front
       - api-back
+      - api-mailer
     volumes:
       - api-usersketches:/usr/src/app/dist/files
       - api-userimages:/usr/src/app/dist/userimages
     depends_on:
       - mongo
     restart: always
+    labels:
+      org.opensensemap.watchtower.enable: "true"
   mongo:
     image: sensebox/opensensemap-api-mongo
     volumes:
@@ -58,12 +73,14 @@ services:
     networks:
       - api-back
     restart: always
+    labels:
+      org.opensensemap.watchtower.enable: "true"
  # Uncomment this, if you want the mailer
  # Also configure OSEM_mailer_url in the api environment
  # mailer:
  #   image: sensebox/sensebox-mailer
  #   networks:
- #     - api-back
+ #     - api-mailer
  #   environment:
  #     SENSEBOX_MAILER_SERVER_CERT: |-
  #       -----BEGIN CERTIFICATE-----
@@ -90,6 +107,8 @@ services:
  #     SENSEBOX_MAILER_FROM_DOMAIN: <the domain you want your mails to originate from>
  #     SENSEBOX_MAILER_HONEYBADGER_APIKEY: <apikey of your honeybadger.io project>
  #   restart: always
+ #   labels:
+ #     org.opensensemap.watchtower.enable: "true"
 
 volumes:
   api-usersketches:
@@ -108,9 +127,18 @@ volumes:
     driver: local-persist
     driver_opts:
       mountpoint: /dockervolumes/caddy-data
+  frontend-assets:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /dockervolumes/frontend-assets
+
 
 networks:
   api-front:
     driver: bridge
   api-back:
     driver: bridge
+    internal: true
+  api-mailer:
+    driver: bridge
+    internal: true
