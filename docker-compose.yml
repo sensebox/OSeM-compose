@@ -141,4 +141,3 @@ networks:
     internal: true
   api-mailer:
     driver: bridge
-    internal: true
