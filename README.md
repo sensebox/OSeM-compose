@@ -1,15 +1,16 @@
 # openSenseMap in Docker Compose
 
-This repository the `docker-compose.yml` how [opensensemap.org](https://opensensemap.org) is run. It includes a watchtower image which will periodically checks for and deploys updated images.
+This repository contains the `docker-compose.yml` how [opensensemap.org](https://opensensemap.org) is run. It includes a watchtower image which will periodically checks for and deploys updated images.
 
 # What you need
 
-- [Docker](https://docs.docker.com/engine/understanding-docker/) and [Docker Compose](https://docs.docker.com/compose/overview/) (at least Version 1.9.0)
-- The [Local Persist Volume Plugin for Docker](https://github.com/CWSpear/local-persist)
+- [Docker](https://docs.docker.com/engine/understanding-docker/) 1.13.0 or above and [Docker Compose](https://docs.docker.com/compose/overview/) 1.11.0 or above
 - A server
 - a web domain with dns control (you need the subdomains `www` and `api`)
 
 # How to run
+
+Use the script `create-volumes.sh` to create docker volumes. These will be used by the services specified in `docker-compose.yml`.
 
 After you installed the software listed above, created the subdomains and placed the `docker-compose.yml` on your server, you need to configure some values in said `docker-compose.yml`. Place these below their respective services `environment` key.
 
@@ -21,12 +22,10 @@ Afterwards you can start everything with `docker-compose up -d`. This repository
 | `API_DOMAIN` | web | normally `api.yourdomain.tld` |  |
 | `ISSUER_ADDRESS` | web | your email or `off` if you don't want a [letsencrypt](https://letsencrypt.org/) tls certificate |  |
 | `USE_STAGING_CA` | web | if `true` a test-certificate will be issued. Otherwise omit this key | y |
-| `API_URL` | osem-static | The url of your api WITH protocol, e.g. `https://api.yourdomain.tld` |  |
-| `MAPTILES_URL` | osem-static | tiles url for your map | y |
 | `OSEM_dbuser` | api, mongo | the database user to connect to your mongodb, also configure this in the `mongo` service |  |
 | `OSEM_dbpass` | api, mongo | the password for the mongodb user, also configure this in the `mongo` service |  |
 | `OSEM_dbhost` | api | mongodb database host. Must correspond with the `mongo:` service in the `docker-compose.yml` |  |
-| `OSEM_targetFolder` | api | if you are using the `osem-caddy` image for your frontend, leave as specified |  |
+| `OSEM_targetFolder` | api | where the api puts sketches for users |  |
 | `OSEM_imageFolder` | api | if you are using the `osem-caddy` image for your frontend, leave as specified |  |
 | `OSEM_slack_url` | api | Slack Webhook url. Leave empty if you don't want slack notifications of the api | y |
 | `OSEM_measurements_post_domain` | api | the plain domain of your openSenseMap instance. Will be used in the arduino sketches. no `www` and no protocol. should correspond to `WEB_DOMAIN` |  |
