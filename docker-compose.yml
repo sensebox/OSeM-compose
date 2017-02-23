@@ -1,4 +1,4 @@
-version: "2.1"
+version: "3.1"
 
 services:
   watchtower:
@@ -21,21 +21,15 @@ services:
     volumes:
       - caddy-data:/etc/caddy/.caddy
       - frontend-assets:/usr/src/app/dist
-    volumes_from:
-      - api
+      - usersketches:/usr/src/app/dist/files
+      - userimages:/usr/src/app/dist/userimages
     networks:
       - api-front
-    depends_on:
-      - api
-      - osem-static
     restart: always
     labels:
       org.opensensemap.watchtower.enable: "true"
   osem-static:
     image: sensebox/opensensemap
-    environment:
-      API_URL: http://api.localhost.localdomain
-      #MAPTILES_URL: http://\{s\}.tile.openstreetmap.org/\{z\}/\{x\}/\{y\}.png
     volumes:
       - frontend-assets:/usr/src/app/dist
     labels:
@@ -55,8 +49,8 @@ services:
       - api-back
       - api-mailer
     volumes:
-      - api-usersketches:/usr/src/app/dist/files
-      - api-userimages:/usr/src/app/dist/userimages
+      - usersketches:/usr/src/app/dist/files
+      - userimages:/usr/src/app/dist/userimages
     depends_on:
       - mongo
     restart: always
@@ -111,27 +105,16 @@ services:
  #     org.opensensemap.watchtower.enable: "true"
 
 volumes:
-  api-usersketches:
-    driver: local-persist
-    driver_opts:
-      mountpoint: /dockervolumes/api-usersketches
-  api-userimages:
-    driver: local-persist
-    driver_opts:
-      mountpoint: /dockervolumes/api-userimages
+  usersketches:
+    external: true
+  userimages:
+    external: true
   mongo-data:
-    driver: local-persist
-    driver_opts:
-      mountpoint: /dockervolumes/mongo-data
+    external: true
   caddy-data:
-    driver: local-persist
-    driver_opts:
-      mountpoint: /dockervolumes/caddy-data
+    external: true
   frontend-assets:
-    driver: local-persist
-    driver_opts:
-      mountpoint: /dockervolumes/frontend-assets
-
+    external: true
 
 networks:
   api-front:
