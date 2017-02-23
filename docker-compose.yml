@@ -21,7 +21,6 @@ services:
     volumes:
       - caddy-data:/etc/caddy/.caddy
       - frontend-assets:/usr/src/app/dist
-      - usersketches:/usr/src/app/dist/files
       - userimages:/usr/src/app/dist/userimages
     networks:
       - api-front
