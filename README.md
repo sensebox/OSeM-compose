@@ -46,3 +46,17 @@ Afterwards you can start everything with `docker-compose up -d`. This repository
 | `SENSEBOX_MAILER_SMTP_PASSWORD` | mailer | the smtp server password | y |
 | `SENSEBOX_MAILER_FROM_DOMAIN` | mailer | the domain you are sending from | y |
 | `SENSEBOX_MAILER_HONEYBADGER_APIKEY` | mailer | api key for honeybadger error reporting |  |
+
+| `DUPLY_GPG_KEY` | backup | gpg key id or 'disabled' |  |
+| `DUPLY_GPG_PW` | backup | gpg password for the key | y |
+| `DUPLY_TARGET_URL` | backup | duplicity target url. See [http://duplicity.nongnu.org/duplicity.1.html](duplicity man page) | |
+| `DUPLY_TARGET_USER` | backup | user for accessing the target url | y |
+| `DUPLY_TARGET_PASS` | backup | password for accessing the target url | y |
+| `DUPLY_SOURCE` | backup | source folder for backups | |
+| `DUPLY_MAXAGE` | backup | age after duplicity deletes old backups | y |
+| `DUPLY_MAXFULLBKPAGE` | backup | age after duplicity creates a new full backup instead of a incremental one | y |
+| `DUPLY_ACTION` | backup | duply action. See [http://duply.net/wiki/index.php/Duply-documentation](duply documentation) | y |
+| `SCHEDULE` | backup | Cron schedule for running the backup | y |
+| `SLACK_HOOK_URL` | backup | Slack webhook url for duply post script | y |
+| `DUPLY_PRE` | backup | Complete Duply pre script. Use `$$` to escape single `$`. | y |
+| `DUPLY_POST` | backup | Complete Duply post script.  Use `$$` to escape single `$`. | y |
