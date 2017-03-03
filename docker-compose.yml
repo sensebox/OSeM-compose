@@ -7,6 +7,57 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
+  backup:
+    image: sensebox/duplicity-backup
+    hostname: osem-backup
+    volumes:
+      - caddy-data:/backup/caddy-data:ro
+      - userimages:/backup/userimages:ro
+      - usersketches:/backup/usersketches:ro
+    environment:
+      DUPLY_GPG_KEY: "disabled"
+      #DUPLY_GPG_PW: "secureP4$$"
+      DUPLY_TARGET_URL: "scheme://address/path"
+      DUPLY_TARGET_USER: "<username>"
+      DUPLY_TARGET_PASS: "<password>"
+      DUPLY_SOURCE: "/backup"
+      DUPLY_MAXAGE: "6M"
+      DUPLY_MAXFULLBKPAGE: "1M"
+      DUPLY_ACTION: "bkp_post"
+      SCHEDULE: "0 */2 * * * * "
+      SLACK_HOOK_URL: "a valid slack url"
+      # to escape the dollar sign, just double it
+      #DUPLY_PRE: |-
+      #  #/bin/bash
+      #  echo "PRE"
+      #  echo "PROFILE             $$PROFILE"
+      #  echo "CONFDIR             $$CONFDIR"
+      #  echo "SOURCE              $$SOURCE"
+      #  echo "TARGET_URL_PROT     $$TARGET_URL_PROT"
+      #  echo "TARGET_URL_HOSTPATH $$TARGET_URL_HOSTPATH"
+      #  echo "TARGET_URL_USER     $$TARGET_URL_USER"
+      #  echo "TARGET_URL_PASS     $$TARGET_URL_PASS"
+      #  echo "GPG_KEY_ENC         $$GPG_KEY_ENC"
+      #  echo "GPG_KEY_SIGN        $$GPG_KEY_SIGN"
+      #  echo "GPG_PW              $$GPG_PW"
+      #  echo "CMD_PREV            $$CMD_PREV"
+      #  echo "CMD_NEXT            $$CMD_NEXT"
+      #  echo "CMD_ERR             $$CMD_ERR"
+      #  echo "RUN_START           $$RUN_START"
+      #  echo "RUN_START           $$(date -d "@$$(($$RUN_START/1000000000))" --iso-8601=seconds)"
+      DUPLY_POST: |-
+        #/bin/bash
+        #
+        set -uo pipefail
+        IFS=$$'\n\t'
+
+        if [ "$$CMD_ERR" != "0" ]
+        then
+          source /notify-slack.sh
+          ISO_RUN_START=$$(date -d "@$$(($$RUN_START/1000000000))" --iso-8601=seconds)
+
+          notify_slack ":negative_squared_cross_mark: The command \`$$CMD_PREV\` failed with exit code \`$$CMD_ERR\` while backing up \`$$HOSTNAME\` to \`$$TARGET_URL_HOSTPATH\`. Please check the logs."
+        fi
   web:
     image: sensebox/osem-caddy
     ports:
