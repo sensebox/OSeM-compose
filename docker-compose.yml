@@ -10,6 +10,7 @@ services:
   backup:
     image: sensebox/duplicity-backup
     hostname: osem-backup
+    restart: always
     volumes:
       - caddy-data:/backup/caddy-data:ro
       - userimages:/backup/userimages:ro
