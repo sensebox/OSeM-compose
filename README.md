@@ -6,7 +6,7 @@ This repository contains the `docker-compose.yml` how [opensensemap.org](https:/
 
 - [Docker](https://docs.docker.com/engine/understanding-docker/) 1.13.0 or above and [Docker Compose](https://docs.docker.com/compose/overview/) 1.11.0 or above
 - A server
-- a web domain with dns control (you need the subdomains `www` and `api`)
+- a web domain with dns control (you need the subdomains `www`, `api` and `ingress`)
 
 # How to run
 
