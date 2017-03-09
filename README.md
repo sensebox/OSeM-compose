@@ -47,7 +47,6 @@ Afterwards you can start everything with `docker-compose up -d`. This repository
 | `SENSEBOX_MAILER_SMTP_PASSWORD` | mailer | the smtp server password | y |
 | `SENSEBOX_MAILER_FROM_DOMAIN` | mailer | the domain you are sending from | y |
 | `SENSEBOX_MAILER_HONEYBADGER_APIKEY` | mailer | api key for honeybadger error reporting |  |
-
 | `DUPLY_GPG_KEY` | backup | gpg key id or 'disabled' |  |
 | `DUPLY_GPG_PW` | backup | gpg password for the key | y |
 | `DUPLY_TARGET_URL` | backup | duplicity target url. See [http://duplicity.nongnu.org/duplicity.1.html](duplicity man page) | |
