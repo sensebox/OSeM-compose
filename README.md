@@ -20,6 +20,7 @@ Afterwards you can start everything with `docker-compose up -d`. This repository
 |---------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | `WEB_DOMAIN` | web | your domain without protocol. also no `www` |  |
 | `API_DOMAIN` | web | normally `api.yourdomain.tld` |  |
+| `INGRESS_DOMAIN` | web | normally `ingress.yourdomain.tld` |  |
 | `ISSUER_ADDRESS` | web | your email or `off` if you don't want a [letsencrypt](https://letsencrypt.org/) tls certificate |  |
 | `USE_STAGING_CA` | web | if `true` a test-certificate will be issued. Otherwise omit this key | y |
 | `OSEM_dbuser` | api, mongo | the database user to connect to your mongodb, also configure this in the `mongo` service |  |
