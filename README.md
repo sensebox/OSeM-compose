@@ -24,7 +24,7 @@ Afterwards you can start everything with `docker-compose up -d`. This repository
 | `ISSUER_ADDRESS` | web | your email or `off` if you don't want a [letsencrypt](https://letsencrypt.org/) tls certificate |  |
 | `USE_STAGING_CA` | web | if `true` a test-certificate will be issued. Otherwise omit this key | y |
 | `OSEM_dbuser` | api, mongo | the database user to connect to your mongodb, also configure this in the `mongo` service |  |
-| `OSEM_dbpass` | api, mongo | the password for the mongodb user, also configure this in the `mongo` service |  |
+| `OSEM_dbuserpass` | api, mongo | the password for the mongodb user, also configure this in the `mongo` service |  |
 | `OSEM_dbhost` | api | mongodb database host. Must correspond with the `mongo:` service in the `docker-compose.yml` |  |
 | `OSEM_targetFolder` | api | where the api puts sketches for users |  |
 | `OSEM_imageFolder` | api | if you are using the `osem-caddy` image for your frontend, leave as specified |  |
