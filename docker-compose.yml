@@ -68,7 +68,7 @@ services:
     environment:
       WEB_DOMAIN: localhost.localdomain
       API_DOMAIN: api.localhost.localdomain
-      ISSUER_DOMAIN: ingress.localhost.localdomain
+      INGRESS_DOMAIN: ingress.localhost.localdomain
       ISSUER_ADDRESS: "off"
       USE_STAGING_CA: "true"
     volumes:
