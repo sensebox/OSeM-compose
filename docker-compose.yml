@@ -1,160 +1,44 @@
-version: "3.1"
+version: "2"
 
 services:
+  # utilities
   watchtower:
-    image: ubergesundheit/watchtower
-    command: --ps-filter label=org.opensensemap.watchtower.enable=true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: always
+    extends:
+      file: util-services.yml
+      service: watchtower_
   backup:
-    image: sensebox/duplicity-backup
-    hostname: osem-backup
-    restart: always
-    volumes:
-      - caddy-data:/backup/caddy-data:ro
-      - userimages:/backup/userimages:ro
-      - usersketches:/backup/usersketches:ro
-    environment:
-      DUPLY_GPG_KEY: "disabled"
-      #DUPLY_GPG_PW: "secureP4$$"
-      DUPLY_TARGET_URL: "scheme://address/path"
-      DUPLY_TARGET_USER: "<username>"
-      DUPLY_TARGET_PASS: "<password>"
-      DUPLY_SOURCE: "/backup"
-      DUPLY_MAXAGE: "6M"
-      DUPLY_MAXFULLBKPAGE: "1M"
-      DUPLY_ACTION: "bkp_post"
-      SCHEDULE: "0 */2 * * * * "
-      SLACK_HOOK_URL: "a valid slack url"
-      # to escape the dollar sign, just double it
-      #DUPLY_PRE: |-
-      #  #/bin/bash
-      #  echo "PRE"
-      #  echo "PROFILE             $$PROFILE"
-      #  echo "CONFDIR             $$CONFDIR"
-      #  echo "SOURCE              $$SOURCE"
-      #  echo "TARGET_URL_PROT     $$TARGET_URL_PROT"
-      #  echo "TARGET_URL_HOSTPATH $$TARGET_URL_HOSTPATH"
-      #  echo "TARGET_URL_USER     $$TARGET_URL_USER"
-      #  echo "TARGET_URL_PASS     $$TARGET_URL_PASS"
-      #  echo "GPG_KEY_ENC         $$GPG_KEY_ENC"
-      #  echo "GPG_KEY_SIGN        $$GPG_KEY_SIGN"
-      #  echo "GPG_PW              $$GPG_PW"
-      #  echo "CMD_PREV            $$CMD_PREV"
-      #  echo "CMD_NEXT            $$CMD_NEXT"
-      #  echo "CMD_ERR             $$CMD_ERR"
-      #  echo "RUN_START           $$RUN_START"
-      #  echo "RUN_START           $$(date -d "@$$(($$RUN_START/1000000000))" --iso-8601=seconds)"
-      DUPLY_POST: |-
-        #/bin/bash
-        #
-        set -uo pipefail
-        IFS=$$'\n\t'
+    extends:
+      file: util-services.yml
+      service: backup_
 
-        if [ "$$CMD_ERR" != "0" ]
-        then
-          source /notify-slack.sh
-          ISO_RUN_START=$$(date -d "@$$(($$RUN_START/1000000000))" --iso-8601=seconds)
-
-          notify_slack ":negative_squared_cross_mark: The command \`$$CMD_PREV\` failed with exit code \`$$CMD_ERR\` while backing up \`$$HOSTNAME\` to \`$$TARGET_URL_HOSTPATH\`. Please check the logs."
-        fi
+  # base services
   web:
-    image: sensebox/osem-caddy
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8000:8000"
-    environment:
-      WEB_DOMAIN: localhost.localdomain
-      API_DOMAIN: api.localhost.localdomain
-      INGRESS_DOMAIN: ingress.localhost.localdomain
-      ISSUER_ADDRESS: "off"
-      USE_STAGING_CA: "true"
-    volumes:
-      - caddy-data:/etc/caddy/.caddy
-      - frontend-assets:/usr/src/app/dist
-      - userimages:/usr/src/app/dist/userimages
-    networks:
-      - api-front
-    restart: always
-    labels:
-      org.opensensemap.watchtower.enable: "true"
+    extends:
+      file: base-services.yml
+      service: web_
   osem-static:
-    image: sensebox/opensensemap
-    volumes:
-      - frontend-assets:/usr/src/app/dist
-    labels:
-      org.opensensemap.watchtower.enable: "true"
+    extends:
+      file: base-services.yml
+      service: osem-static_
   api:
-    image: sensebox/opensensemap-api
-    environment:
-      ENV: prod
-      OSEM_measurements_post_domain: localhost.localdomain
-      OSEM_dbuser: mongodbOSeMUser
-      OSEM_dbuserpass: securePa$$
-      OSEM_dbhost: mongo
-      OSEM_targetFolder: /usr/src/app/dist/files/
-      OSEM_imageFolder: /usr/src/app/dist/userimages/
-    networks:
-      - api-front
-      - api-back
-      - api-mailer
-    volumes:
-      - usersketches:/usr/src/app/dist/files
-      - userimages:/usr/src/app/dist/userimages
-    depends_on:
-      - mongo
-    restart: always
-    labels:
-      org.opensensemap.watchtower.enable: "true"
-  mongo:
-    image: sensebox/opensensemap-api-mongo
-    volumes:
-      - mongo-data:/data/db
-    environment:
-      OSEM_dbuser: mongodbOSeMUser
-      OSEM_dbuserpass: securePa$$
-    command: --auth --storageEngine wiredTiger
-    networks:
-      - api-back
-    restart: always
-    labels:
-      org.opensensemap.watchtower.enable: "true"
- # Uncomment this, if you want the mailer
- # Also configure OSEM_mailer_url in the api environment
- # mailer:
- #   image: sensebox/sensebox-mailer
- #   networks:
- #     - api-mailer
- #   environment:
- #     SENSEBOX_MAILER_SERVER_CERT: |-
- #       -----BEGIN CERTIFICATE-----
- #       MIIDDjCCAfYCCQCq1COpwRyd8DANBgkqhkiG9w0BAQsFADCBijEaMBgGCSqGSIb3
- #       (...)
- #       USFXPcOYAD3gp8v9ZRboCIm7
- #       -----END CERTIFICATE-----
- #     SENSEBOX_MAILER_SERVER_KEY: |-
- #       -----BEGIN EC PRIVATE KEY-----
- #       MIHcAgEBBEIAu161aaZyjSsWwzlDC/gw7dh89c3wjMYfQELzCmINISOHzG6qtHFN
- #       (...)
- #       CSfpNimu6ryA2VTI90dxFxDiN/xcwmqGjAjgSx5ZBQ==
- #       -----END EC PRIVATE KEY-----
- #     SENSEBOX_MAILER_CA_CERT: |-
- #       -----BEGIN CERTIFICATE-----
- #       MIID6TCCAtGgAwIBAgIJALezkLQobfZoMA0GCSqGSIb3DQEBCwUAMIGKMRowGAYJ
- #       (...)
- #       /9TwbcMim/OEtJKkDp+wJh4nGpJETVUOllPvZZrHe2kKcJWeHOV7G1X+qS9x
- #       -----END CERTIFICATE-----
- #     SENSEBOX_MAILER_SMTP_SERVER: <your smtp server address>
- #     SENSEBOX_MAILER_SMTP_PORT: <your smtp server port>
- #     SENSEBOX_MAILER_SMTP_USER: <your smtp server user>
- #     SENSEBOX_MAILER_SMTP_PASSWORD: <your smtp server password>
- #     SENSEBOX_MAILER_FROM_DOMAIN: <the domain you want your mails to originate from>
- #     SENSEBOX_MAILER_HONEYBADGER_APIKEY: <apikey of your honeybadger.io project>
- #   restart: always
- #   labels:
- #     org.opensensemap.watchtower.enable: "true"
+    extends:
+      file: base-services.yml
+      service: api_
+
+  # # database
+  # # Uncomment this, if you want to run a database with the api
+  # mongo:
+  #   extends:
+  #     file: database-services.yml
+  #     service: mongo_
+
+  # # mailer
+  # # Uncomment this, if you want the mailer
+  # # Also configure OSEM_mailer_url in the api environment
+  # mailer:
+  #   extends:
+  #     file: mailer-services.yml
+  #     service: mailer_
 
 volumes:
   usersketches:

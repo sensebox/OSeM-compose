@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  mongo_:
+    image: sensebox/opensensemap-api-mongo
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      OSEM_dbuser: mongodbOSeMUser
+      OSEM_dbuserpass: securePa$$
+    command: --auth --storageEngine wiredTiger
+    networks:
+      - api-back
+    restart: always
+    labels:
+      org.opensensemap.watchtower.enable: "true"

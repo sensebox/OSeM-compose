@@ -1,0 +1,47 @@
+version: "2"
+
+services:
+  web_:
+    image: sensebox/osem-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+    environment:
+      WEB_DOMAIN: localhost.localdomain
+      API_DOMAIN: api.localhost.localdomain
+      INGRESS_DOMAIN: ingress.localhost.localdomain
+      USE_STAGING_CA: "true"
+    volumes:
+      - caddy-data:/etc/caddy/.caddy
+      - frontend-assets:/usr/src/app/dist
+      - userimages:/usr/src/app/dist/userimages
+    networks:
+      - api-front
+    restart: always
+  osem-static_:
+    image: sensebox/opensensemap
+    volumes:
+      - frontend-assets:/usr/src/app/dist
+    labels:
+      org.opensensemap.watchtower.enable: "true"
+  api_:
+    image: sensebox/opensensemap-api
+    environment:
+      ENV: prod
+      OSEM_measurements_post_domain: localhost.localdomain
+      OSEM_dbuser: mongodbOSeMUser
+      OSEM_dbuserpass: securePa$$
+      OSEM_dbhost: mongo
+      OSEM_targetFolder: /usr/src/app/dist/files/
+      OSEM_imageFolder: /usr/src/app/dist/userimages/
+    networks:
+      - api-front
+      - api-back
+      - api-mailer
+    volumes:
+      - usersketches:/usr/src/app/dist/files
+      - userimages:/usr/src/app/dist/userimages
+    restart: always
+    labels:
+      org.opensensemap.watchtower.enable: "true"

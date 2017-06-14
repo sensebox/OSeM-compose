@@ -1,0 +1,35 @@
+version: "2"
+
+services:
+  mailer_:
+    image: sensebox/sensebox-mailer
+    networks:
+      - api-mailer
+    environment:
+      SENSEBOX_MAILER_SERVER_CERT: |-
+        -----BEGIN CERTIFICATE-----
+        MIIDDjCCAfYCCQCq1COpwRyd8DANBgkqhkiG9w0BAQsFADCBijEaMBgGCSqGSIb3
+        (...)
+        USFXPcOYAD3gp8v9ZRboCIm7
+        -----END CERTIFICATE-----
+      SENSEBOX_MAILER_SERVER_KEY: |-
+        -----BEGIN EC PRIVATE KEY-----
+        MIHcAgEBBEIAu161aaZyjSsWwzlDC/gw7dh89c3wjMYfQELzCmINISOHzG6qtHFN
+        (...)
+        CSfpNimu6ryA2VTI90dxFxDiN/xcwmqGjAjgSx5ZBQ==
+        -----END EC PRIVATE KEY-----
+      SENSEBOX_MAILER_CA_CERT: |-
+        -----BEGIN CERTIFICATE-----
+        MIID6TCCAtGgAwIBAgIJALezkLQobfZoMA0GCSqGSIb3DQEBCwUAMIGKMRowGAYJ
+        (...)
+        /9TwbcMim/OEtJKkDp+wJh4nGpJETVUOllPvZZrHe2kKcJWeHOV7G1X+qS9x
+        -----END CERTIFICATE-----
+      SENSEBOX_MAILER_SMTP_SERVER: <your smtp server address>
+      SENSEBOX_MAILER_SMTP_PORT: <your smtp server port>
+      SENSEBOX_MAILER_SMTP_USER: <your smtp server user>
+      SENSEBOX_MAILER_SMTP_PASSWORD: <your smtp server password>
+      SENSEBOX_MAILER_FROM_DOMAIN: <the domain you want your mails to originate from>
+      SENSEBOX_MAILER_HONEYBADGER_APIKEY: <apikey of your honeybadger.io project>
+    restart: always
+    labels:
+      org.opensensemap.watchtower.enable: "true"
