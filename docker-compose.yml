@@ -1,17 +1,8 @@
 version: "2"
 
 services:
-  # utilities
-  watchtower:
-    extends:
-      file: util-services.yml
-      service: watchtower_
-  backup:
-    extends:
-      file: util-services.yml
-      service: backup_
 
-  # base services
+  ### Base services
   web:
     extends:
       file: base-services.yml
@@ -26,19 +17,36 @@ services:
       service: api_
 
   # # database
-  # # Uncomment this, if you want to run a database with the api
+  # # Uncomment or specify in docker-compose.override.yml, if you want to run a database with the api
   # mongo:
   #   extends:
   #     file: database-services.yml
   #     service: mongo_
 
+  # ### Additional Services
   # # mailer
-  # # Uncomment this, if you want the mailer
+  # # Uncomment or specify in docker-compose.override.yml
   # # Also configure OSEM_mailer_url in the api environment
   # mailer:
   #   extends:
-  #     file: mailer-services.yml
+  #     file: additional-services.yml
   #     service: mailer_
+  # ttn-integration:
+  #   extends:
+  #     file: additional-services.yml
+  #     service: ttn-integration_
+
+  # ### Utilities
+  # # Uncomment or specify in docker-compose.override.yml
+  # # assorted util containers
+  # watchtower:
+  #   extends:
+  #     file: util-services.yml
+  #     service: watchtower_
+  # backup:
+  #   extends:
+  #     file: util-services.yml
+  #     service: backup_
 
 volumes:
   usersketches:

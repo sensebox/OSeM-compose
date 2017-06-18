@@ -31,7 +31,7 @@ services:
       ENV: prod
       OSEM_measurements_post_domain: localhost.localdomain
       OSEM_dbuser: mongodbOSeMUser
-      OSEM_dbuserpass: securePa$$
+      OSEM_dbuserpass: securePaSs
       OSEM_dbhost: mongo
       OSEM_targetFolder: /usr/src/app/dist/files/
       OSEM_imageFolder: /usr/src/app/dist/userimages/

@@ -33,3 +33,16 @@ services:
     restart: always
     labels:
       org.opensensemap.watchtower.enable: "true"
+  ttn-integration_:
+    image: sensebox/ttn-osem-integration:latest
+    environment:
+      ENV: prod
+      OSEM_dbuser: mongodbOSeMUser
+      OSEM_dbuserpass: securePaSs
+      OSEM_dbhost: mongo
+    networks:
+      - api-front
+      - api-back
+    restart: always
+    labels:
+      org.opensensemap.watchtower.enable: "true"

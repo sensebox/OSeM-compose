@@ -7,7 +7,7 @@ services:
       - mongo-data:/data/db
     environment:
       OSEM_dbuser: mongodbOSeMUser
-      OSEM_dbuserpass: securePa$$
+      OSEM_dbuserpass: securePaSs
     command: --auth --storageEngine wiredTiger
     networks:
       - api-back
