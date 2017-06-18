@@ -2,7 +2,7 @@ version: "2"
 
 services:
   watchtower_:
-    image: ubergesundheit/watchtower
+    image: ubergesundheit/watchtower:updated
     command: --ps-filter label=org.opensensemap.watchtower.enable=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
