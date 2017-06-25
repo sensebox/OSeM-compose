@@ -54,7 +54,7 @@ Afterwards you can start everything with `docker-compose up -d`. This repository
 | `OSEM_mailer_cert` | certificate to communicate with the mailer. see [https://github.com/sensebox/sensebox-mailer](sensebox-mailer) for more information. | y |
 | `OSEM_mailer_key` | key for the certificate | y |
 | `OSEM_mailer_ca` | signing ca for your certificate | y |
-| `OSEM_mailer_origin` | Generated from base_domain and protocol. origin of your openSenseMap installation. With protocol. | y |
+| `OSEM_mailer_origin` | origin of your openSenseMap installation. With protocol. | y |
 | `OSEM_jwt_secret` | Secret string for JWT generation. Should be at least 32 characters long | |
 | `OSEM_jwt_algorithm` | Default: `HS256`. Algorithm used for JWT generation | y |
 | `OSEM_jwt_validity_ms` | Default: `360000` (1 hour). How long a JWT should be valid in milliseconds | y |
