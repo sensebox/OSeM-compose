@@ -117,6 +117,13 @@ Generates a new certficate authority named YOUR-CERTIFICATE-AUTHORITY-NAME and c
 | `TTN_OSEM_PORT` | the port on which the ttn integration runs | y |
 | `TTN_OSEM_loglevel` | loglevel for the ttn integration. `info`, `warn`, `error` | y |
 
+## Service `mqtt-integration`
+
+| key | comment | optional |
+|-----|---------|----------|
+| `NODE_ENV` | should be set to `production` in production. |  |
+| `NODE_CONFIG` | JSON string containing the configuration of the [`mqtt-osem-integration](https://github.com/sensebox/mqtt-osem-integration) service |  |
+
 ## Service `backup`
 
 | key | comment | optional |
