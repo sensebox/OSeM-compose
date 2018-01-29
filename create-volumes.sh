@@ -1,10 +1,10 @@
 #!/bin/bash
 
 set -euo pipefail
+IFS=$'\n\t'
 
-volumes="userimages,caddy-data,frontend-assets,mongo-data"
+volumes=$(docker-compose config --volumes)
 
-IFS=$','
 for volume_name in $volumes; do
   echo -n "Creating docker volume "
   docker volume create -d local "$volume_name"
