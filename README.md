@@ -12,9 +12,25 @@ This repository contains the `docker-compose.yml` how [opensensemap.org](https:/
 
 Use the script `create-volumes.sh` to create docker volumes. These will be used by the services specified in `docker-compose.yml`.
 
+Create self signed certificates for inter-service communication with [`generateCertificates.sh`](certificates-for-secure-inter-service-communication).
+
 After you installed the software listed above, created the subdomains and place the `docker-compose.yml` on your server. You may want to configure some values in a `docker-compose.override.yml`. Configuration happens mainly through `environment` keys.
 
 Afterwards you can start everything with `docker-compose up -d`. This repository also contains some bash scripts to deploy updated images.
+
+# Certificates for secure inter-service communication
+
+The `generateCertificates.sh` script wraps [`certstrap`](https://github.com/square/certstrap) to create a self signed certificate authority which can be used to sign server and client certificates.
+
+## Prerequisites
+
+Grab at least version 1.1.1 of `certstrap` ([github.com/square/certstrap/releases](https://github.com/square/certstrap/releases))
+
+## Usage
+
+    ./generateCertificates.sh YOUR-CERTIFICATE-AUTHORITY-NAME SERVICE1[,SERVICE2,...]
+
+Generates a new certficate authority named YOUR-CERTIFICATE-AUTHORITY-NAME and certificates for services named SERVICE1 and SERVICE2. The certificates are valid for hostnames `SERVICE_NAME` and `localhost` and are stored in a new folder called `certificates`.
 
 # Configuration
 
