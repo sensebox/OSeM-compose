@@ -101,7 +101,7 @@ Generates a new certficate authority named YOUR-CERTIFICATE-AUTHORITY-NAME and c
 |-----|---------|----------|
 | `DUPLY_GPG_KEY` | gpg key id or 'disabled' |  |
 | `DUPLY_GPG_PW` | gpg password for the key | y |
-| `DUPLY_TARGET_URL` | duplicity target url. See [http://duplicity.nongnu.org/duplicity.1.html](duplicity man page) | |
+| `DUPLY_TARGET_URL` | duplicity target url. See [duplicity man page](http://duplicity.nongnu.org/duplicity.1.html) | |
 | `DUPLY_TARGET_USER` | user for accessing the target url | y |
 | `DUPLY_TARGET_PASS` | password for accessing the target url | y |
 | `DUPLY_SOURCE` | source folder for backups | |
