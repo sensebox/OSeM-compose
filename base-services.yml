@@ -26,14 +26,9 @@ services:
     labels:
       org.opensensemap.watchtower.enable: "true"
   api_:
-    image: sensebox/opensensemap-api
+    image: sensebox/opensensemap-api:v2
     environment:
-      ENV: prod
-      OSEM_dbuser: mongodbOSeMUser
-      OSEM_dbuserpass: securePaSs
-      OSEM_dbhost: mongo
-      OSEM_targetFolder: /usr/src/app/dist/files/
-      OSEM_imageFolder: /usr/src/app/dist/userimages/
+      NODE_ENV: production
     networks:
       - api-front
       - api-back
