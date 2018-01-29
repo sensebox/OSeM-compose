@@ -53,8 +53,6 @@ services:
   #     service: backup_
 
 volumes:
-  usersketches:
-    external: true
   userimages:
     external: true
   mongo-data:

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-volumes="usersketches,userimages,caddy-data,frontend-assets,mongo-data"
+volumes="userimages,caddy-data,frontend-assets,mongo-data"
 
 IFS=$','
 for volume_name in $volumes; do

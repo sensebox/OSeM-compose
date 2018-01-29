@@ -34,7 +34,6 @@ services:
       - api-back
       - api-mailer
     volumes:
-      - usersketches:/usr/src/app/dist/files
       - userimages:/usr/src/app/dist/userimages
     restart: always
     labels:
