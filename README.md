@@ -32,6 +32,8 @@ Grab at least version 1.1.1 of `certstrap` ([github.com/square/certstrap/release
 
 Generates a new certficate authority named YOUR-CERTIFICATE-AUTHORITY-NAME and certificates for services named SERVICE1 and SERVICE2. The certificates are valid for hostnames `SERVICE_NAME` and `localhost` and are stored in a new folder called `certificates`.
 
+You can convert the certificate files to \n delimited strings using `sed -z 's/\n/\\n/g' < certificate.crt`.
+
 # Configuration
 
 ## Service `web`

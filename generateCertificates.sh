@@ -43,6 +43,5 @@ generateCA
 SERVICES=${SERVICES//,/$'\n'}
 for SERVICE in $SERVICES
 do
-  requestAndSignCertificate "${SERVICE}_server"
-  requestAndSignCertificate "${SERVICE}_client"
+  requestAndSignCertificate "${SERVICE}"
 done
