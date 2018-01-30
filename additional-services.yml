@@ -68,5 +68,6 @@ services:
           }
         }
     networks:
+      - api-front
       - api-back
     restart: always
