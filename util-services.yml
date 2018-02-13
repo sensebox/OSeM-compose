@@ -14,7 +14,6 @@ services:
     volumes:
       - caddy-data:/backup/caddy-data:ro
       - userimages:/backup/userimages:ro
-      - usersketches:/backup/usersketches:ro
     environment:
       DUPLY_GPG_KEY: "disabled"
       #DUPLY_GPG_PW: "secureP4$$"
