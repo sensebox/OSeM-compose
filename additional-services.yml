@@ -46,3 +46,28 @@ services:
     restart: always
     labels:
       org.opensensemap.watchtower.enable: "true"
+  mqtt-integration_:
+    image: sensebox/mqtt-osem-integration:v0.0.3
+    environment:
+      NODE_ENV: production
+      NODE_CONFIG: |-
+        {
+          "grpc": {
+            "certificates": {
+              "ca_cert": "-----BEGIN CERTIFICATE-----\nMIIE9DCCAtygAwIBA ... ",
+              "server_cert": "-----BEGIN CERTIFICATE-----\nMIIE9DCCAtygAwIBA ... ",
+              "server_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIJKQIBAAKCAg ..."
+            }
+          },
+          "openSenseMap-API-models": {
+            "db": {
+              "host": "mongo",
+              "user": "mongodbOSeMUser",
+              "pass": "securePaSs"
+            }
+          }
+        }
+    networks:
+      - api-front
+      - api-back
+    restart: always

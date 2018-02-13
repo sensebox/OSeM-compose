@@ -35,6 +35,10 @@ services:
   #   extends:
   #     file: additional-services.yml
   #     service: ttn-integration_
+  # mqtt-integration:
+  #   extends:
+  #     file: additional-services.yml
+  #     service: mqtt-integration_
 
   # ### Utilities
   # # Uncomment or specify in docker-compose.override.yml
@@ -49,8 +53,6 @@ services:
   #     service: backup_
 
 volumes:
-  usersketches:
-    external: true
   userimages:
     external: true
   mongo-data:
