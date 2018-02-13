@@ -47,7 +47,7 @@ services:
     labels:
       org.opensensemap.watchtower.enable: "true"
   mqtt-integration_:
-    image: sensebox/mqtt-osem-integration:v0.0.1
+    image: sensebox/mqtt-osem-integration:v0.0.3
     environment:
       NODE_ENV: production
       NODE_CONFIG: |-

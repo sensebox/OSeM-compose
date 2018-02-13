@@ -20,13 +20,13 @@ services:
       - api-front
     restart: always
   osem-static_:
-    image: sensebox/opensensemap
+    image: sensebox/opensensemap:v1.0.0
     volumes:
       - frontend-assets:/usr/src/app/dist
     labels:
       org.opensensemap.watchtower.enable: "true"
   api_:
-    image: sensebox/opensensemap-api:v2
+    image: sensebox/opensensemap-api:v3
     environment:
       NODE_ENV: production
     networks:
